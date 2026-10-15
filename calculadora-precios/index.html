@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#123b2c">
+<meta name="description" content="Calculá costos, precio de venta y ganancia por unidad desde tu celular. Gratis para probar, sin registro ni instalación.">
+<title>Precio Claro | Calculadora de precios y ganancias</title>
+<style>
+:root{--ink:#17352b;--muted:#64756d;--paper:#f5f3e9;--card:#fffef9;--green:#174c38;--lime:#d8f36a;--line:#dce3d9;--red:#a23b34;--shadow:0 14px 35px #183a2b12}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.45}button,input,select{font:inherit}button{cursor:pointer}.wrap{max-width:920px;margin:auto;padding:16px 14px 40px}.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 2px 18px}.brand{display:flex;align-items:center;gap:10px;font-weight:850;letter-spacing:-.4px}.mark{width:42px;height:42px;border-radius:14px;background:var(--green);color:var(--lime);display:grid;place-items:center;font-size:24px}.tag{font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--green);background:#e6edda;border-radius:999px;padding:7px 10px}.hero{background:var(--green);color:#fffdf4;border-radius:26px;padding:25px 22px;position:relative;overflow:hidden}.hero:after{content:"$";position:absolute;font-size:190px;font-weight:900;line-height:1;right:-2px;bottom:-65px;color:#ffffff0b;pointer-events:none}.eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:1.6px;color:var(--lime);font-weight:850}.hero h1{font-size:clamp(29px,6vw,47px);line-height:1.02;letter-spacing:-1.7px;margin:10px 0 12px;max-width:570px}.hero p{margin:0;color:#e4eee6;max-width:540px;font-size:15px}.pills{display:flex;flex-wrap:wrap;gap:7px;margin-top:18px}.pill{font-size:12px;border:1px solid #ffffff40;padding:6px 9px;border-radius:999px;color:#fff}.layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.86fr);gap:15px;margin-top:16px;align-items:start}.panel{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:19px;box-shadow:var(--shadow)}.panel h2{font-size:19px;letter-spacing:-.5px;margin:0 0 5px}.sub{color:var(--muted);font-size:13px;margin:0 0 18px}.field{margin:0 0 14px}.field label{display:block;font-weight:750;font-size:13px;margin-bottom:6px}.hint{display:block;font-size:11px;font-weight:500;color:var(--muted);margin-top:4px}.inputrow{position:relative}.prefix{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:14px;font-weight:800;color:var(--muted);pointer-events:none}.inputrow input{padding-left:34px}.field input,.field select{width:100%;min-height:47px;border:1px solid #cbd6ca;background:#fff;border-radius:12px;padding:11px 12px;color:var(--ink);outline:none}.field input:focus,.field select:focus{border-color:var(--green);box-shadow:0 0 0 3px #174c3818}.twocol{display:grid;grid-template-columns:1fr 1fr;gap:10px}.sectionline{height:1px;background:var(--line);margin:17px 0}.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}.btn{border:0;border-radius:13px;padding:13px 15px;font-weight:850;min-height:47px;display:inline-flex;align-items:center;justify-content:center;gap:7px}.btn-primary{background:var(--green);color:white;flex:1}.btn-light{background:#eaf0e4;color:var(--green)}.btn-outline{border:1px solid var(--line);background:transparent;color:var(--ink)}.results{position:sticky;top:12px}.result-top{background:#edf5df;border-radius:17px;padding:16px;margin:12px 0}.result-label{font-size:11px;text-transform:uppercase;letter-spacing:1px;font-weight:850;color:#536c42}.price{font-size:clamp(35px,7vw,48px);font-weight:900;letter-spacing:-1.5px;line-height:1.15;margin:6px 0 4px;overflow-wrap:anywhere}.result-note{font-size:12px;color:#536c42}.statgrid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.stat{border:1px solid var(--line);border-radius:14px;padding:12px}.stat span{display:block;color:var(--muted);font-size:11px;font-weight:700}.stat strong{display:block;font-size:19px;letter-spacing:-.4px;margin-top:4px;overflow-wrap:anywhere}.stat small{display:block;color:var(--muted);font-size:10px;margin-top:3px}.profit{color:#1b6b43!important}.loss{color:var(--red)!important}.barwrap{height:9px;background:#e6e9df;border-radius:99px;overflow:hidden;margin:9px 0 5px}.bar{height:100%;width:0;background:#8ebc47;border-radius:99px;transition:width .2s}.breakdown{margin-top:16px}.breakrow{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid #edf0e9;font-size:13px}.breakrow:last-child{border-bottom:0}.breakrow strong{text-align:right;white-space:nowrap}.sharebox{background:#f6f7f0;border:1px dashed #c7d4c4;border-radius:15px;padding:14px;margin-top:15px}.sharebox h3{font-size:14px;margin:0 0 6px}.sharebox p{font-size:12px;color:var(--muted);margin:0 0 10px}.notice{font-size:11px;color:var(--muted);line-height:1.5;margin-top:13px}.footer{text-align:center;color:var(--muted);font-size:11px;margin:22px 0 0}.footer strong{color:var(--green)}.error{font-size:12px;color:var(--red);font-weight:700;min-height:18px;margin-top:8px}.hidden{display:none!important}.help{margin-top:16px}.help summary{font-weight:800;font-size:13px;cursor:pointer}.help p{font-size:12px;color:var(--muted);margin-bottom:0}.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#17352b;color:white;border-radius:99px;padding:11px 17px;font-size:13px;font-weight:750;box-shadow:var(--shadow);z-index:5;max-width:90%;text-align:center}.secondary-title{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);font-weight:850;margin:0 0 10px}
+@media(max-width:720px){.wrap{padding:10px 10px 28px}.top{padding:8px 3px 13px}.layout{grid-template-columns:1fr}.hero{padding:22px 18px;border-radius:22px}.panel{padding:16px;border-radius:19px}.results{position:static}.price{font-size:42px}.tag{font-size:10px}.actions .btn{flex:1 1 100%}}
+@media(min-width:721px){.wrap{padding-top:20px}.hero{padding:31px}.layout{gap:18px}}
+@media print{body{background:#fff}.top,.hero,.form-panel,.actions,.sharebox,.help,.footer{display:none!important}.wrap{max-width:none;padding:0}.layout{display:block}.panel{box-shadow:none;border:0;padding:0}.results{position:static}.result-top{background:#fff;border:1px solid #ddd}.notice{display:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <div class="brand"><div class="mark" aria-hidden="true">₱</div><div>PRECIO CLARO<div style="font-size:10px;letter-spacing:1.1px;color:var(--muted);font-weight:700">HERRAMIENTA PARA EMPRENDER</div></div></div>
+  <div class="tag">Simple · Gratis</div>
+</header>
+<section class="hero">
+  <div class="eyebrow">Tus números, sin vueltas</div>
+  <h1>¿Vendés? Que la cuenta te cierre.</h1>
+  <p>Calculá cuánto te cuesta cada producto, cuánto te queda y a qué precio podrías venderlo. Completá los datos y mirá el resultado al instante.</p>
+  <div class="pills"><span class="pill">✓ Sin registrarte</span><span class="pill">✓ Desde el celular</span><span class="pill">✓ Sin instalar nada</span></div>
+</section>
+<main class="layout">
+<section class="panel form-panel">
+  <h2>1. Tus costos</h2>
+  <p class="sub">Usá el costo de UNA unidad o producto que quieras vender.</p>
+  <div class="field"><label for="product">¿Qué vendés? <span style="font-weight:500;color:var(--muted)">(opcional)</span></label><input id="product" type="text" maxlength="60" placeholder="Ej.: docena de empanadas"></div>
+  <div class="field"><label for="cost">Costo para preparar o comprar una unidad</label><div class="inputrow"><span class="prefix">$</span><input id="cost" type="number" min="0" step="0.01" inputmode="decimal" value="1000"></div><span class="hint">Ingredientes, mercadería o materiales.</span></div>
+  <div class="twocol">
+    <div class="field"><label for="pack">Envase y extras</label><div class="inputrow"><span class="prefix">$</span><input id="pack" type="number" min="0" step="0.01" inputmode="decimal" value="100"></div></div>
+    <div class="field"><label for="labor">Tu trabajo por unidad</label><div class="inputrow"><span class="prefix">$</span><input id="labor" type="number" min="0" step="0.01" inputmode="decimal" value="300"></div></div>
+  </div>
+  <div class="field"><label for="fixed">Parte de gastos fijos por unidad</label><div class="inputrow"><span class="prefix">$</span><input id="fixed" type="number" min="0" step="0.01" inputmode="decimal" value="100"></div><span class="hint">Ej.: gas, alquiler, internet o electricidad repartidos entre las unidades vendidas.</span></div>
+  <div class="sectionline"></div>
+  <h2>2. Tu venta</h2>
+  <p class="sub">Si no pagás comisiones o impuestos sobre la venta, dejalos en 0. Usá porcentajes que correspondan a tu caso.</p>
+  <div class="twocol">
+    <div class="field"><label for="fees">Comisiones (%)</label><input id="fees" type="number" min="0" max="99" step="0.1" inputmode="decimal" value="0"></div>
+    <div class="field"><label for="tax">Impuestos sobre venta (%)</label><input id="tax" type="number" min="0" max="99" step="0.1" inputmode="decimal" value="0"><span class="hint">No es asesoramiento contable.</span></div>
+  </div>
+  <div class="field"><label for="margin">¿Qué porcentaje querés que te quede de ganancia?</label><div class="twocol"><input id="margin" type="number" min="0" max="90" step="1" inputmode="decimal" value="30" aria-label="Porcentaje de ganancia deseado"><select id="rounding" aria-label="Redondear precio"><option value="1">Precio exacto</option><option value="50" selected>Redondear a $50</option><option value="100">Redondear a $100</option><option value="500">Redondear a $500</option><option value="1000">Redondear a $1.000</option></select></div><span class="hint">Es el porcentaje del precio de venta que querés conservar después de cubrir costos y cargos porcentuales.</span></div>
+  <div class="field"><label for="actual">¿Ya tenés un precio de venta? <span style="font-weight:500;color:var(--muted)">(opcional)</span></label><div class="inputrow"><span class="prefix">$</span><input id="actual" type="number" min="0" step="0.01" inputmode="decimal" placeholder="Ingresá tu precio actual"></div><span class="hint">Si lo completás, comparamos ese precio con el sugerido.</span></div>
+  <div class="error" id="error" role="status" aria-live="polite"></div>
+  <div class="actions"><button class="btn btn-primary" id="calc" type="button">Calcular mis números ↗</button><button class="btn btn-light" id="reset" type="button">Reiniciar</button></div>
+  <details class="help"><summary>¿Cómo calculo mis costos?</summary><p>Sumá lo que gastás para producir o comprar una unidad. Agregá envase y extras, un valor para tu tiempo de trabajo y una parte de los gastos fijos. Si comprás materiales para varias unidades, dividí ese gasto por la cantidad que realmente obtenés.</p></details>
+</section>
+<section class="panel results" aria-live="polite">
+  <div class="secondary-title">3. Tu resultado</div>
+  <div class="result-top">
+    <div class="result-label">Precio de venta sugerido</div>
+    <div class="price" id="suggested">$2.150</div>
+    <div class="result-note" id="suggestedNote">Para alcanzar el margen elegido, según los datos ingresados.</div>
+  </div>
+  <div class="statgrid">
+    <div class="stat"><span>Ganancia por unidad</span><strong class="profit" id="profit">$645</strong><small>Después de los costos y cargos indicados.</small></div>
+    <div class="stat"><span>Margen de ganancia</span><strong id="marginOut">30%</strong><div class="barwrap"><div class="bar" id="marginBar"></div></div></div>
+    <div class="stat"><span>Costo total por unidad</span><strong id="costOut">$1.500</strong><small>Incluye el trabajo declarado.</small></div>
+    <div class="stat"><span>Precio de equilibrio</span><strong id="breakEven">$1.500</strong><small>Para cubrir costos, antes de ganancia.</small></div>
+  </div>
+  <div class="breakdown">
+    <div class="secondary-title" style="margin-top:18px">Así se reparte cada venta</div>
+    <div class="breakrow"><span>Costos por unidad</span><strong id="bCost">$1.500</strong></div>
+    <div class="breakrow"><span>Comisiones e impuestos</span><strong id="bFees">$0</strong></div>
+    <div class="breakrow"><span>Ganancia estimada</span><strong id="bProfit">$645</strong></div>
+    <div class="breakrow"><span>Precio actual ingresado</span><strong id="currentOut">No indicado</strong></div>
+    <div class="breakrow"><span>Resultado con precio actual</span><strong id="currentProfit">—</strong></div>
+  </div>
+  <div class="sharebox">
+    <h3>¿Querés guardar o compartir el cálculo?</h3>
+    <p>Copiá un resumen para vos o enviáselo a alguien por WhatsApp. Revisá los números antes de tomar una decisión.</p>
+    <div class="actions" style="margin-top:0"><button class="btn btn-primary" id="share" type="button">Compartir por WhatsApp</button><button class="btn btn-outline" id="copy" type="button">Copiar resumen</button></div>
+  </div>
+  <p class="notice">Importante: el precio sugerido es una cuenta orientativa, no una garantía de venta. No incluye costos que no hayas cargado ni reemplaza asesoramiento contable o impositivo. Compará también con el mercado y con lo que tus clientes pueden pagar.</p>
+</section>
+</main>
+<footer class="footer">Una herramienta de <strong>Ocarina Producciones</strong> · San Patricio del Chañar, Neuquén<br>Los cálculos se hacen en este dispositivo; esta página no envía tus datos a un servidor.</footer>
+</div>
+<div class="toast hidden" id="toast" role="status" aria-live="polite"></div>
+<script>
+(function(){
+const $=id=>document.getElementById(id);
+const ids=["product","cost","pack","labor","fixed","fees","tax","margin","rounding","actual"];
+const initial={product:"",cost:"1000",pack:"100",labor:"300",fixed:"100",fees:"0",tax:"0",margin:"30",rounding:"50",actual:""};
+let latest={};
+const money=n=>new Intl.NumberFormat("es-AR",{style:"currency",currency:"ARS",maximumFractionDigits:2}).format(Number.isFinite(n)?n:0);
+const num=id=>{const el=$(id);return el.value.trim()===""?0:Number(el.value)};
+function notify(msg){const t=$("toast");t.textContent=msg;t.classList.remove("hidden");clearTimeout(notify.timer);notify.timer=setTimeout(()=>t.classList.add("hidden"),2400)}
+function calculate(){
+ const cost=num("cost"),pack=num("pack"),labor=num("labor"),fixed=num("fixed"),fees=num("fees"),tax=num("tax"),margin=num("margin"),round=Number($("rounding").value)||1,actual=num("actual");
+ const error=$("error");
+ if(ids.some(id=>["cost","pack","labor","fixed","fees","tax","margin","actual"].includes(id)&&$(id).value.trim()!==""&&(!Number.isFinite(Number($(id).value))||Number($(id).value)<0))){error.textContent="Revisá los importes: ingresá números iguales o mayores que cero.";return}
+ if(fees+tax>=100){error.textContent="Comisiones e impuestos juntos deben ser menores al 100%.";return}
+ if(margin+fees+tax>=100){error.textContent="El margen elegido más los cargos debe ser menor al 100%. Bajá alguno de los porcentajes.";return}
+ error.textContent="";
+ const base=cost+pack+labor+fixed;
+ const rate=(fees+tax)/100, target=margin/100;
+ const raw=base===0?0:base/(1-rate-target);
+ const suggested=round===1?raw:Math.ceil(raw/round)*round;
+ const charges=suggested*rate;
+ const profit=suggested-charges-base;
+ const actualProfit=actual>0?actual*(1-rate)-base:null;
+ const actualMargin=actual>0?actualProfit/actual*100:null;
+ $("suggested").textContent=money(suggested);
+ $("suggestedNote").textContent=base===0?"Cargá tus costos para obtener un precio útil.":"Precio redondeado según el margen elegido y los cargos indicados.";
+ $("profit").textContent=money(profit);$("profit").className=profit<0?"loss":"profit";
+ $("marginOut").textContent=suggested>0?(profit/suggested*100).toLocaleString("es-AR",{maximumFractionDigits:1})+"%":"—";
+ $("marginBar").style.width=Math.max(0,Math.min(100,suggested>0?profit/suggested*100:0))+"%";
+ $("costOut").textContent=money(base);
+ $("breakEven").textContent=money(rate<1?base/(1-rate):0);
+ $("bCost").textContent=money(base);$("bFees").textContent=money(charges);$("bProfit").textContent=money(profit);
+ $("currentOut").textContent=actual>0?money(actual):"No indicado";
+ $("currentProfit").textContent=actual>0?money(actualProfit):"—";
+ $("currentProfit").className="breakrow"; 
+ if(actual>0){$("currentProfit").innerHTML="<span>Resultado con precio actual</span><strong class='"+(actualProfit<0?"loss":"profit")+"'>"+money(actualProfit)+"</strong>"}
+ latest={product:$("product").value.trim()||"Mi producto",base,fees,tax,margin,suggested,profit,actual,actualProfit,actualMargin};
+}
+function summary(){
+ const d=latest;
+ return "PRECIO CLARO — cálculo orientativo\nProducto: "+d.product+"\nCosto total por unidad: "+money(d.base)+"\nPrecio sugerido: "+money(d.suggested)+"\nGanancia estimada por unidad: "+money(d.profit)+"\nMargen estimado: "+(d.suggested>0?(d.profit/d.suggested*100).toLocaleString("es-AR",{maximumFractionDigits:1})+"%":"—")+"\nPrecio actual: "+(d.actual>0?money(d.actual):"No indicado")+"\n\nCalculado con Precio Claro · Ocarina Producciones. Revisar costos, cargos y precios del mercado antes de decidir.";
+}
+$("calc").addEventListener("click",calculate);
+$("reset").addEventListener("click",()=>{ids.forEach(id=>$(id).value=initial[id]);calculate();notify("Formulario reiniciado.")});
+$("copy").addEventListener("click",async()=>{const text=summary();try{await navigator.clipboard.writeText(text);notify("Resumen copiado.")}catch(e){const ta=document.createElement("textarea");ta.value=text;ta.style.position="fixed";ta.style.opacity="0";document.body.appendChild(ta);ta.select();try{document.execCommand("copy");notify("Resumen copiado.")}catch(err){notify("No se pudo copiar. Seleccioná el texto manualmente.")}ta.remove()}});
+$("share").addEventListener("click",()=>{const url="https://wa.me/?text="+encodeURIComponent(summary());window.open(url,"_blank","noopener,noreferrer")});
+ids.forEach(id=>$(id).addEventListener("input",calculate));
+calculate();
+})();
+</script>
+</body>
+</html>
