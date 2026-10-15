@@ -116,8 +116,7 @@ function calculate(){
  $("bCost").textContent=money(base);$("bFees").textContent=money(charges);$("bProfit").textContent=money(profit);
  $("currentOut").textContent=actual>0?money(actual):"No indicado";
  $("currentProfit").textContent=actual>0?money(actualProfit):"—";
- $("currentProfit").className="breakrow"; 
- if(actual>0){$("currentProfit").innerHTML="<span>Resultado con precio actual</span><strong class='"+(actualProfit<0?"loss":"profit")+"'>"+money(actualProfit)+"</strong>"}
+ $("currentProfit").className=actual>0?(actualProfit<0?"loss":"profit"):"";
  latest={product:$("product").value.trim()||"Mi producto",base,fees,tax,margin,suggested,profit,actual,actualProfit,actualMargin};
 }
 function summary(){
