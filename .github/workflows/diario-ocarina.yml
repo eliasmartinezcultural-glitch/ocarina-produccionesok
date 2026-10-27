@@ -1,0 +1,118 @@
+name: Diario Ocarina · actualización automática
+
+on:
+  schedule:
+    - cron: "17 * * * *"
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - "diario-ocarina/**"
+      - ".github/workflows/diario-ocarina.yml"
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: diario-ocarina-pages
+  cancel-in-progress: false
+
+jobs:
+  actualizar-y-publicar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Descargar el repositorio
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Recopilar feeds RSS y generar noticias.json
+        shell: python
+        run: |
+          import json, re, time, hashlib, urllib.request, xml.etree.ElementTree as ET
+          from datetime import datetime, timezone
+          from email.utils import parsedate_to_datetime
+          from html import unescape
+          from pathlib import Path
+
+          OUT = Path("diario-ocarina/noticias.json")
+          FEEDS = [
+              ("Región", "Neuquén Informa · Generales", "https://www.neuqueninforma.gob.ar/rss/generales/"),
+              ("Turismo", "Neuquén Informa · Turismo", "https://www.neuqueninforma.gob.ar/rss/turismo/"),
+              ("Educación", "Neuquén Informa · Educación", "https://www.neuqueninforma.gob.ar/rss/educacion/"),
+          ]
+          # Curaduría conservadora: evitar sucesos policiales, accidentes, violencia,
+          # política partidaria, energía hidrocarburífera y afirmaciones de riesgo.
+          BLOCK = re.compile(r"\b(polic[ií]a|policial|homicidio|asesinato|violaci[oó]n|detuvieron|detenido|allanamiento|robo|asalto|choque|accidente|muert[oa]s?|falleci[oó]|herid[oa]s?|violencia|delito|droga|narcotr[aá]fico|arma|disparo|petr[oó]leo|fracking|vac(a|ca) muerta|partido pol[ií]tico|campa[nñ]a electoral|candidato|elecciones|elecci[oó]n)\b", re.I)
+          def clean(value):
+              value = re.sub(r"<[^>]+>", " ", value or "")
+              value = unescape(value)
+              return re.sub(r"\s+", " ", value).strip()
+          def parse_date(item):
+              raw = item.findtext("pubDate") or ""
+              try:
+                  dt = parsedate_to_datetime(raw)
+                  if dt.tzinfo is None: dt = dt.replace(tzinfo=timezone.utc)
+                  return dt.astimezone(timezone.utc).isoformat()
+              except Exception:
+                  return ""
+          items, seen = [], set()
+          for category, source, url in FEEDS:
+              try:
+                  req = urllib.request.Request(url, headers={"User-Agent":"DiarioOcarinaRSS/1.0 (public feed reader)"})
+                  with urllib.request.urlopen(req, timeout=18) as response:
+                      root = ET.fromstring(response.read(3_000_000))
+                  for item in root.findall(".//item"):
+                      title = clean(item.findtext("title"))
+                      link = (item.findtext("link") or "").strip()
+                      summary = clean(item.findtext("description"))
+                      date = parse_date(item)
+                      if not title or not link or not link.startswith("https://"): continue
+                      key = hashlib.sha256(link.encode("utf-8")).hexdigest()
+                      if key in seen: continue
+                      seen.add(key)
+                      if BLOCK.search(title) or BLOCK.search(summary): continue
+                      # Mantener un extracto breve; no reproducir el artículo completo.
+                      summary = summary[:360].rsplit(" ", 1)[0] + ("…" if len(summary) > 360 else "")
+                      items.append({"id":key[:16],"title":title[:220],"summary":summary,"link":link,"date":date,"category":category,"source":source})
+              except Exception as exc:
+                  print("Feed no disponible:", url, type(exc).__name__)
+          items.sort(key=lambda item: item.get("date",""), reverse=True)
+          items = items[:60]
+          data = {
+              "updated_at": datetime.now(timezone.utc).isoformat(),
+              "source_note": "Titulares y extractos breves de fuentes originales. Verificá la publicación enlazada.",
+              "items": items
+          }
+          OUT.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+          print("Noticias aptas publicadas:", len(items))
+
+      - name: Guardar los cambios de noticias
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add diario-ocarina/noticias.json
+          if ! git diff --cached --quiet; then
+            git commit -m "Actualizar noticias del Diario Ocarina"
+            git push
+          else
+            echo "No hay cambios nuevos en el archivo de noticias."
+          fi
+
+      - name: Preparar GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Empaquetar el sitio completo sin alterar la portada institucional
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+      - name: Publicar en GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
