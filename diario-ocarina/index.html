@@ -3,54 +3,64 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#183d35">
-<meta name="description" content="Diario Ocarina: historias, personas y territorio desde San Patricio del Chañar y la Patagonia.">
-<meta property="og:title" content="Diario Ocarina">
-<meta property="og:description" content="Historias, personas y territorio. Novedades regionales con fuentes visibles.">
+<meta name="theme-color" content="#203d32">
+<meta name="description" content="Diario Ocarina: historias, personas y territorio. Una mirada que empieza en San Patricio del Chañar y se abre al mundo.">
+<meta property="og:title" content="Diario Ocarina — Desde Chañar, hacia el mundo">
+<meta property="og:description" content="Una agenda construida desde el territorio, no desde los grandes centros.">
 <meta property="og:type" content="website">
-<title>Diario Ocarina · Historias, personas y territorio</title>
+<title>Diario Ocarina · Desde Chañar, hacia el mundo</title>
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<header class="masthead">
-  <a class="brand" href="./" aria-label="Diario Ocarina, inicio">
-    <span class="brand-mark" aria-hidden="true">O</span>
-    <span><strong>DIARIO OCARINA</strong><small>Historias · Personas · Territorio</small></span>
-  </a>
-  <div class="edition">SAN PATRICIO DEL CHAÑAR · NEUQUÉN</div>
+<header class="top">
+  <a class="brand" href="./" aria-label="Diario Ocarina, inicio"><span class="seal">O</span><span><strong>DIARIO OCARINA</strong><small>Historias · Personas · Territorio</small></span></a>
+  <div class="place">SAN PATRICIO DEL CHAÑAR<br><span>NEUQUÉN · PATAGONIA</span></div>
 </header>
 <main>
-  <section class="intro">
-    <p class="eyebrow">UNA MIRADA CERCANA A NUESTRO TERRITORIO</p>
-    <h1>Lo que pasa.<br><em>Lo que nos conecta.</em></h1>
-    <p class="lede">Novedades regionales, cultura, turismo, educación e historias. Cada publicación conserva el enlace a su fuente original.</p>
-    <div class="status-line"><span class="live-dot"></span><span id="update-status">Consultando novedades…</span></div>
+  <section class="hero">
+    <p class="kicker">UNA AGENDA QUE NACE ACÁ</p>
+    <h1>El mundo es grande.<br><em>La mirada empieza acá.</em></h1>
+    <p class="intro">Contamos el territorio desde quienes lo habitan. Primero San Patricio del Chañar; después, lo cercano; más allá, solo aquello que nos aporta algo.</p>
+    <div class="update"><span class="pulse"></span><span id="update-status">Preparando la edición…</span><span id="update-time"></span></div>
   </section>
-  <nav class="filters" aria-label="Filtrar noticias">
-    <button class="filter active" data-category="Todas">Todo</button>
-    <button class="filter" data-category="Región">Región</button>
-    <button class="filter" data-category="Turismo">Turismo</button>
-    <button class="filter" data-category="Educación">Educación</button>
+  <nav class="filters" aria-label="Filtrar por territorio">
+    <button class="filter active" data-region="Todos">Todo</button>
+    <button class="filter" data-region="Chañar">Desde Chañar</button>
+    <button class="filter" data-region="Cercanías">Cerca nuestro</button>
+    <button class="filter" data-region="Patagonia">Patagonia</button>
+    <button class="filter" data-region="Argentina y mundo">Más allá</button>
   </nav>
-  <section class="news-section" aria-labelledby="news-title">
-    <div class="section-heading"><div><p class="eyebrow">ACTUALIZACIONES</p><h2 id="news-title">En el territorio</h2></div><span id="result-count" class="count">Cargando</span></div>
-    <div id="news-grid" class="news-grid" aria-live="polite">
-      <article class="empty-state"><div class="loader"></div><p>Buscando publicaciones en fuentes regionales…</p></article>
+  <section class="territory" id="local">
+    <div class="heading"><div><p class="kicker">01 / RAÍZ</p><h2>Desde Chañar</h2><p>La vida que ocurre acá merece ser vista.</p></div><span class="number" id="count-Chañar">—</span></div>
+    <div class="cards" id="cards-Chañar"><article class="empty">La sección local se está preparando.</article></div>
+  </section>
+  <section class="territory near">
+    <div class="heading"><div><p class="kicker">02 / TERRITORIO COMPARTIDO</p><h2>Cerca nuestro</h2><p>Historias de localidades vecinas y del Alto Valle.</p></div><span class="number" id="count-Cercanías">—</span></div>
+    <div class="cards" id="cards-Cercanías"><article class="empty">Buscando publicaciones de la región…</article></div>
+  </section>
+  <section class="territory">
+    <div class="heading"><div><p class="kicker">03 / HORIZONTE</p><h2>Patagonia</h2><p>Lo regional, cuando ayuda a entender el lugar que habitamos.</p></div><span class="number" id="count-Patagonia">—</span></div>
+    <div class="cards" id="cards-Patagonia"><article class="empty">Buscando publicaciones patagónicas…</article></div>
+  </section>
+  <section class="territory far">
+    <div class="heading"><div><p class="kicker">04 / VENTANA ABIERTA</p><h2>Más allá</h2><p>Argentina y el mundo, elegidos por su valor para nuestra comunidad.</p></div><span class="number" id="count-Argentina y mundo">—</span></div>
+    <div class="cards" id="cards-Argentina y mundo"><article class="empty">Esta ventana se abrirá con fuentes y criterios propios.</article></div>
+  </section>
+  <section class="principles">
+    <p class="kicker">NUESTRA REGLA EDITORIAL</p>
+    <h2>No miramos Chañar desde afuera.<br><em>Miramos el mundo desde Chañar.</em></h2>
+    <div class="principle-grid">
+      <div><b>01</b><h3>Territorio primero</h3><p>La cercanía y la relevancia local pesan más que el tamaño del medio o el ruido del día.</p></div>
+      <div><b>02</b><h3>Fuentes a la vista</h3><p>Cada noticia externa enlaza a su origen. Una fuente oficial se identifica como oficial.</p></div>
+      <div><b>03</b><h3>Automatizar no es verificar</h3><p>Los filtros reducen riesgos, pero pueden equivocarse. No inventamos datos ni presentamos enlaces como trabajo propio.</p></div>
     </div>
-    <p id="empty-filter" class="empty-filter" hidden>No hay publicaciones de esta categoría por ahora.</p>
   </section>
-  <section class="source-note">
-    <span class="source-icon" aria-hidden="true">↗</span>
-    <div><h2>Información con origen</h2><p>Compartimos titulares y extractos breves, identificando la fuente y enlazando cada publicación original. Ocarina no es autora de las noticias enlazadas.</p></div>
-  </section>
-  <section class="about">
-    <p class="eyebrow">OCARINA PRODUCCIONES</p>
-    <h2>Las noticias cuentan una parte.<br><em>Las historias nos cuentan quiénes somos.</em></h2>
-    <p>Este espacio reúne novedades públicas y, progresivamente, sumará historias propias de San Patricio del Chañar y la Patagonia.</p>
-    <a class="about-link" href="../">Conocer Ocarina Producciones <span aria-hidden="true">↗</span></a>
+  <section class="sources">
+    <div><p class="kicker">SEGUIR LAS FUENTES</p><h2>La información tiene origen.</h2><p>Este diario reúne publicaciones públicas y las ordena desde una mirada territorial. Las historias propias de Ocarina se identificarán como producción original.</p></div>
+    <div class="source-links"><a href="https://www.sanpatricio.gob.ar/" target="_blank" rel="noopener noreferrer">Municipalidad de San Patricio del Chañar ↗</a><a href="https://chanardigital.com.ar/" target="_blank" rel="noopener noreferrer">Chañar Digital ↗</a><a href="https://www.neuqueninforma.gob.ar/" target="_blank" rel="noopener noreferrer">Neuquén Informa · fuente oficial ↗</a></div>
   </section>
 </main>
-<footer><span>© Ocarina Producciones</span><span>San Patricio del Chañar · Neuquén</span><a href="https://www.neuqueninforma.gob.ar/rss/" target="_blank" rel="noopener noreferrer">Fuentes RSS ↗</a></footer>
+<footer><span>© Ocarina Producciones</span><span>Hecho desde San Patricio del Chañar</span><a href="../">Ocarina Producciones ↗</a></footer>
 <script src="app.js"></script>
 </body>
 </html>
