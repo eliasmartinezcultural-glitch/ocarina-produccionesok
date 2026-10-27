@@ -24,6 +24,9 @@ jobs:
   actualizar-y-publicar:
     runs-on: ubuntu-latest
     timeout-minutes: 8
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Descargar el repositorio
         uses: actions/checkout@v4
