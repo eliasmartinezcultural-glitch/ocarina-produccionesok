@@ -107,7 +107,7 @@ jobs:
               "source_note": "Titulares y extractos breves de fuentes originales. Las fuentes oficiales se identifican como tales. La automatización no sustituye la verificación humana.",
               "items": items
           }
-          OUT.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\\n", encoding="utf-8")
+          OUT.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
           print("Publicaciones aptas:", len(items))
           print("Clasificación territorial:", {r: sum(1 for x in items if x["territory"] == r) for r in priority})
 
