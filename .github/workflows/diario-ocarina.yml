@@ -97,13 +97,9 @@ jobs:
                       items.append({"id":key[:16],"title":title[:220],"summary":summary,"link":link,"date":date,"category":category,"source":source,"territory":region})
               except Exception as exc:
                   print("Feed no disponible:", url, type(exc).__name__)
-          items.sort(key=lambda item: (priority.get(item["territory"], 9), item.get("date", "")), reverse=False)
-          # Orden territorial primero y cronológico dentro de cada zona.
-          items.sort(key=lambda item: (priority.get(item["territory"], 9), item.get("date", "")), reverse=False)
-          for region in priority:
-              group = [x for x in items if x["territory"] == region]
-              group.sort(key=lambda x: x.get("date", ""), reverse=True)
-              items = [x for x in items if x["territory"] != region] + group
+          # Orden estable: fecha reciente primero y después prioridad territorial.
+          items.sort(key=lambda item: item.get("date", ""), reverse=True)
+          items.sort(key=lambda item: priority.get(item["territory"], 9))
           items = items[:60]
           data = {
               "updated_at": datetime.now(timezone.utc).isoformat(),
