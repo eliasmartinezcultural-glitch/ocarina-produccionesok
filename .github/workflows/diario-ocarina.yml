@@ -33,14 +33,15 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Recopilar feeds RSS y generar noticias.json
+      - name: Recopilar, filtrar y clasificar fuentes RSS
         shell: python
         run: |
-          import json, re, time, hashlib, urllib.request, xml.etree.ElementTree as ET
+          import json, re, hashlib, urllib.request, xml.etree.ElementTree as ET
           from datetime import datetime, timezone
           from email.utils import parsedate_to_datetime
           from html import unescape
           from pathlib import Path
+          import unicodedata
 
           OUT = Path("diario-ocarina/noticias.json")
           FEEDS = [
@@ -48,13 +49,24 @@ jobs:
               ("Turismo", "Neuquén Informa · Turismo", "https://www.neuqueninforma.gob.ar/rss/turismo/"),
               ("Educación", "Neuquén Informa · Educación", "https://www.neuqueninforma.gob.ar/rss/educacion/"),
           ]
-          # Curaduría conservadora: evitar sucesos policiales, accidentes, violencia,
-          # política partidaria, energía hidrocarburífera y afirmaciones de riesgo.
-          BLOCK = re.compile(r"\b(polic[ií]a|policial|homicidio|asesinato|violaci[oó]n|detuvieron|detenido|allanamiento|robo|asalto|choque|accidente|muert[oa]s?|falleci[oó]|herid[oa]s?|violencia|delito|droga|narcotr[aá]fico|arma|disparo|petr[oó]leo|fracking|vac(a|ca) muerta|partido pol[ií]tico|campa[nñ]a electoral|candidato|elecciones|elecci[oó]n)\b", re.I)
+          # Filtro inicial de seguridad editorial. No sustituye la revisión humana.
+          BLOCK = re.compile(r"\\b(polic[ií]a|policial|homicidio|asesinato|violaci[oó]n|detuvieron|detenido|allanamiento|robo|asalto|choque|accidente|muert[oa]s?|falleci[oó]|herid[oa]s?|violencia|delito|droga|narcotr[aá]fico|arma|disparo|petr[oó]leo|fracking|vaca muerta|partido pol[ií]tico|campa[nñ]a electoral|candidato|elecciones|elecci[oó]n)\\b", re.I)
           def clean(value):
               value = re.sub(r"<[^>]+>", " ", value or "")
               value = unescape(value)
-              return re.sub(r"\s+", " ", value).strip()
+              return re.sub(r"\\s+", " ", value).strip()
+          def norm(value):
+              value = unicodedata.normalize("NFD", value or "")
+              return "".join(ch for ch in value if unicodedata.category(ch) != "Mn").lower()
+          def territory(title, summary, link):
+              text = norm(" ".join([title, summary, link]))
+              if re.search(r"san patricio del chanar|el chanar|chanar digital|epea 3|epet 26|cef 10", text):
+                  return "Chañar"
+              if re.search(r"alto valle|villa regina|general roca|cipolletti|cinco saltos|centenario|anelo|plottier|vista alegre|contralmirante cordero|barda del medio", text):
+                  return "Cercanías"
+              if re.search(r"neuquen|rio negro|patagonia|limay|collon cura|junin de los andes|san martin de los andes|zapala|andacollo|las coloradas|chubut|santa cruz|tierra del fuego", text):
+                  return "Patagonia"
+              return "Argentina y mundo"
           def parse_date(item):
               raw = item.findtext("pubDate") or ""
               try:
@@ -63,6 +75,7 @@ jobs:
                   return dt.astimezone(timezone.utc).isoformat()
               except Exception:
                   return ""
+          priority = {"Chañar": 0, "Cercanías": 1, "Patagonia": 2, "Argentina y mundo": 3}
           items, seen = [], set()
           for category, source, url in FEEDS:
               try:
@@ -79,20 +92,28 @@ jobs:
                       if key in seen: continue
                       seen.add(key)
                       if BLOCK.search(title) or BLOCK.search(summary): continue
-                      # Mantener un extracto breve; no reproducir el artículo completo.
                       summary = summary[:360].rsplit(" ", 1)[0] + ("…" if len(summary) > 360 else "")
-                      items.append({"id":key[:16],"title":title[:220],"summary":summary,"link":link,"date":date,"category":category,"source":source})
+                      region = territory(title, summary, link)
+                      items.append({"id":key[:16],"title":title[:220],"summary":summary,"link":link,"date":date,"category":category,"source":source,"territory":region})
               except Exception as exc:
                   print("Feed no disponible:", url, type(exc).__name__)
-          items.sort(key=lambda item: item.get("date",""), reverse=True)
+          items.sort(key=lambda item: (priority.get(item["territory"], 9), item.get("date", "")), reverse=False)
+          # Orden territorial primero y cronológico dentro de cada zona.
+          items.sort(key=lambda item: (priority.get(item["territory"], 9), item.get("date", "")), reverse=False)
+          for region in priority:
+              group = [x for x in items if x["territory"] == region]
+              group.sort(key=lambda x: x.get("date", ""), reverse=True)
+              items = [x for x in items if x["territory"] != region] + group
           items = items[:60]
           data = {
               "updated_at": datetime.now(timezone.utc).isoformat(),
-              "source_note": "Titulares y extractos breves de fuentes originales. Verificá la publicación enlazada.",
+              "editorial_rule": "Prioridad territorial: San Patricio del Chañar, cercanías, Patagonia y luego Argentina/mundo.",
+              "source_note": "Titulares y extractos breves de fuentes originales. Las fuentes oficiales se identifican como tales. La automatización no sustituye la verificación humana.",
               "items": items
           }
-          OUT.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-          print("Noticias aptas publicadas:", len(items))
+          OUT.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\\n", encoding="utf-8")
+          print("Publicaciones aptas:", len(items))
+          print("Clasificación territorial:", {r: sum(1 for x in items if x["territory"] == r) for r in priority})
 
       - name: Guardar los cambios de noticias
         run: |
